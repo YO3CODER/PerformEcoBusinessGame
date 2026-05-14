@@ -54,6 +54,7 @@ const services = [
 export default function VitrinePerformEco() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const whatsappNumber = "2250102766142";
+  const logoPath = "/logo.jpeg";
 
   const openWhatsApp = () => {
     window.open(`https://wa.me/${whatsappNumber}`, "_blank");
@@ -80,13 +81,6 @@ export default function VitrinePerformEco() {
         .btn-primary { background: linear-gradient(135deg, #C9952A 0%, #F4C458 100%); color: #fff; }
         .btn-outline { background: transparent; border: 1px solid #C9952A; color: #C9952A; }
 
-        .glass-card {
-          background: #ffffff;
-          border: 1px solid rgba(0, 0, 0, 0.05);
-          box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05);
-        }
-
-        /* Animation du Menu Mobile */
         .mobile-menu {
           position: fixed;
           top: 0;
@@ -118,25 +112,37 @@ export default function VitrinePerformEco() {
         <button onClick={() => setMobileMenuOpen(false)} className="self-end text-slate-400">
           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" strokeWidth="2" strokeLinecap="round"/></svg>
         </button>
-        <nav className="flex flex-col gap-6 text-lg font-bold">
-          <a href="#accueil" onClick={() => setMobileMenuOpen(false)}>Accueil</a>
-          <a href="#services" onClick={() => setMobileMenuOpen(false)}>Services</a>
-          <button onClick={openWhatsApp} className="btn btn-primary w-full">RDV WhatsApp</button>
+        
+        {/* Logo dans le menu mobile */}
+        <div className="flex flex-col items-center gap-4 mb-4">
+          <img src={logoPath} alt="Perform'Eco Logo" className="w-24 h-auto object-contain" />
+          <span className="text-sm font-bold uppercase tracking-tighter">Perform'<span className="text-[#C9952A]">Eco</span></span>
+        </div>
+
+        <nav className="flex flex-col gap-6 text-lg font-bold border-t pt-8">
+          <a href="#accueil" onClick={() => setMobileMenuOpen(false)} className="hover:text-[#C9952A]">Accueil</a>
+          <a href="#services" onClick={() => setMobileMenuOpen(false)} className="hover:text-[#C9952A]">Services</a>
+          <button onClick={openWhatsApp} className="btn btn-primary w-full mt-4">RDV WhatsApp</button>
         </nav>
       </div>
 
       {/* --- NAVIGATION --- */}
-      <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100 h-20">
+      <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-slate-100 h-20">
         <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#C9952A] rounded-xl flex items-center justify-center text-white font-black text-xl">P</div>
-            <span className="text-xl font-extrabold text-slate-900 uppercase">Perform'<span className="text-[#C9952A]">Eco</span></span>
+          <div className="flex items-center gap-4">
+            {/* Logo intégré ici */}
+            <img 
+              src={logoPath} 
+              alt="Perform'Eco Logo" 
+              className="h-12 w-auto object-contain" 
+            />
+            <span className="hidden sm:inline-block text-xl font-extrabold text-slate-900 uppercase">Perform'<span className="text-[#C9952A]">Eco</span></span>
           </div>
 
           <div className="hidden md:flex gap-10 items-center text-sm font-bold uppercase tracking-widest">
             <a href="#accueil" className="hover:text-[#C9952A] transition-colors">Accueil</a>
             <a href="#services" className="hover:text-[#C9952A] transition-colors">Services</a>
-            <button onClick={openWhatsApp} className="btn btn-primary text-xs px-6 py-3">Contactez-nous</button>
+            <button onClick={openWhatsApp} className="btn btn-primary text-xs px-6 py-3">Prendre RDV</button>
           </div>
 
           <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 text-slate-900">
@@ -146,30 +152,32 @@ export default function VitrinePerformEco() {
       </nav>
 
       {/* --- HERO SECTION --- */}
-      <section id="accueil" className="relative pt-40 pb-20 px-6 min-h-[80vh] flex items-center">
-        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16">
+      <section id="accueil" className="relative pt-44 pb-20 px-6 min-h-[85vh] flex items-center">
+        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center">
           <div className="z-10">
             <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-bold tracking-widest uppercase text-[#C9952A]">
               Cabinet de Conseil & Stratégie
             </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-8 uppercase">
-              L'expertise <br />au service de <br />
-              <span className="text-[#C9952A] italic">votre performance.</span>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-8 uppercase tracking-tighter">
+              L'expertise au service <br /> de <span className="text-[#C9952A] italic">votre performance.</span>
             </h1>
-            <p className="text-lg text-slate-500 mb-10 max-w-md">
-              Solutions sur mesure pour booster votre activité à Abidjan et partout en Côte d'Ivoire.
+            <p className="text-lg text-slate-500 mb-10 max-w-md leading-relaxed">
+              Des solutions économiques et financières sur mesure pour booster votre activité à Abidjan.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <button onClick={openWhatsApp} className="btn btn-primary px-8">Prendre Rendez-vous</button>
-              <a href="#services" className="btn btn-outline px-8">Nos Services</a>
+              <button onClick={openWhatsApp} className="btn btn-primary px-10">Prendre Rendez-vous</button>
+              <a href="#services" className="btn btn-outline px-10">Nos Domaines</a>
             </div>
           </div>
+          
           <div className="hidden lg:block relative">
-            <img
-              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
-              alt="Analyse"
-              className="rounded-[2.5rem] shadow-2xl rotate-2"
-            />
+             <div className="relative p-4 glass-card rounded-[3rem] shadow-2xl">
+                <img
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
+                  alt="Analyse Perform'Eco"
+                  className="rounded-[2.5rem] w-full h-[500px] object-cover"
+                />
+             </div>
           </div>
         </div>
       </section>
@@ -184,7 +192,7 @@ export default function VitrinePerformEco() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((s, i) => (
-              <div key={i} className="glass-card p-10 rounded-[2rem] bg-white transition-transform hover:-translate-y-2">
+              <div key={i} className="p-10 rounded-[2rem] bg-white border border-slate-100 shadow-sm transition-all hover:shadow-xl hover:-translate-y-2">
                 <div className="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center text-[#C9952A] mb-8">
                   {s.icon}
                 </div>
@@ -197,8 +205,8 @@ export default function VitrinePerformEco() {
                     </li>
                   ))}
                 </ul>
-                <button onClick={openWhatsApp} className="text-[#C9952A] text-[10px] font-bold uppercase tracking-widest border-b border-[#C9952A] pb-1">
-                  En savoir plus
+                <button onClick={openWhatsApp} className="text-[#C9952A] text-[10px] font-bold uppercase tracking-widest border-b-2 border-[#C9952A] pb-1 hover:text-slate-900 hover:border-slate-900 transition-colors">
+                  Demander un audit
                 </button>
               </div>
             ))}
@@ -208,23 +216,30 @@ export default function VitrinePerformEco() {
 
       {/* --- FOOTER --- */}
       <footer id="contact" className="py-20 px-6 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto text-center md:text-left grid md:grid-cols-3 gap-12">
-          <div>
-            <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
-              <div className="w-8 h-8 bg-[#C9952A] rounded flex items-center justify-center text-white font-black text-lg">P</div>
-              <span className="text-xl font-bold text-slate-900 uppercase tracking-tighter">Perform'Eco</span>
-            </div>
-            <p className="text-slate-400 text-sm">Votre partenaire performance en Côte d'Ivoire.</p>
+        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12 text-center md:text-left">
+          <div className="space-y-6">
+            <img src={logoPath} alt="Perform'Eco Logo" className="h-16 w-auto mx-auto md:mx-0 object-contain" />
+            <p className="text-slate-400 text-sm max-w-xs mx-auto md:mx-0">
+              Votre partenaire stratégique pour une performance financière et opérationnelle durable.
+            </p>
           </div>
-          <div className="text-sm space-y-2">
-            <h4 className="font-bold uppercase tracking-widest mb-4">Contacts</h4>
-            <p>+225 01 02 76 61 42</p>
-            <p>+225 07 08 50 33 76</p>
+          
+          <div className="text-sm space-y-4">
+            <h4 className="font-bold uppercase tracking-widest text-[#C9952A] mb-6">Contact direct</h4>
+            <p className="flex items-center justify-center md:justify-start gap-2">
+              <span className="font-bold">WhatsApp:</span> +225 01 02 76 61 42
+            </p>
+            <p className="flex items-center justify-center md:justify-start gap-2">
+              <span className="font-bold">Contact:</span> +225 07 08 50 33 76
+            </p>
+            <p className="text-slate-500 uppercase tracking-widest text-[10px] mt-4">Abidjan, Côte d'Ivoire</p>
           </div>
-          <div>
-            <button onClick={openWhatsApp} className="btn btn-primary w-full text-xs uppercase tracking-widest">
-              Contact WhatsApp
+
+          <div className="flex flex-col items-center md:items-end justify-center">
+            <button onClick={openWhatsApp} className="btn btn-primary w-full md:w-auto px-12 text-xs uppercase tracking-widest">
+              Lancer une discussion
             </button>
+            <p className="text-[10px] text-slate-300 mt-4 uppercase">© 2026 Perform'Eco — Tous droits réservés</p>
           </div>
         </div>
       </footer>
