@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 
-// --- SERVICES RÉELS ---
 const services = [
   {
     title: "CONSEIL ÉCONOMIQUE & STRATÉGIQUE",
@@ -53,18 +52,19 @@ const services = [
 ];
 
 export default function VitrinePerformEco() {
-  const whatsappNumber = "2250102766142";
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const whatsappNumber = "2250102766142";
 
   const openWhatsApp = () => {
     window.open(`https://wa.me/${whatsappNumber}`, "_blank");
+    setMobileMenuOpen(false);
   };
 
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans overflow-x-hidden">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
 
         .btn {
           display: inline-flex;
@@ -76,13 +76,9 @@ export default function VitrinePerformEco() {
           transition: all 0.3s ease;
           border: none;
           cursor: pointer;
-          text-decoration: none;
         }
         .btn-primary { background: linear-gradient(135deg, #C9952A 0%, #F4C458 100%); color: #fff; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(201, 149, 42, 0.4); }
-        
         .btn-outline { background: transparent; border: 1px solid #C9952A; color: #C9952A; }
-        .btn-outline:hover { background: rgba(201, 149, 42, 0.05); }
 
         .glass-card {
           background: #ffffff;
@@ -90,129 +86,120 @@ export default function VitrinePerformEco() {
           box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05);
         }
 
-        .gold-gradient {
-          background: linear-gradient(135deg, #C9952A 0%, #F4C458 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+        /* Animation du Menu Mobile */
+        .mobile-menu {
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: 280px;
+          background: white;
+          z-index: 100;
+          transform: translateX(${isMobileMenuOpen ? "0" : "100%"});
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: -10px 0 30px rgba(0,0,0,0.1);
         }
 
-        .hero-glow {
-          position: absolute;
-          width: 600px;
-          height: 600px;
-          background: radial-gradient(circle, rgba(201, 149, 42, 0.08) 0%, transparent 70%);
-          filter: blur(80px);
-          z-index: 0;
+        .overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.4);
+          backdrop-filter: blur(4px);
+          z-index: 90;
+          opacity: ${isMobileMenuOpen ? "1" : "0"};
+          pointer-events: ${isMobileMenuOpen ? "auto" : "none"};
+          transition: opacity 0.3s ease;
         }
       `}</style>
+
+      {/* --- OVERLAY & MOBILE MENU --- */}
+      <div className="overlay" onClick={() => setMobileMenuOpen(false)}></div>
+      <div className="mobile-menu p-8 flex flex-col gap-8">
+        <button onClick={() => setMobileMenuOpen(false)} className="self-end text-slate-400">
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" strokeWidth="2" strokeLinecap="round"/></svg>
+        </button>
+        <nav className="flex flex-col gap-6 text-lg font-bold">
+          <a href="#accueil" onClick={() => setMobileMenuOpen(false)}>Accueil</a>
+          <a href="#services" onClick={() => setMobileMenuOpen(false)}>Services</a>
+          <button onClick={openWhatsApp} className="btn btn-primary w-full">RDV WhatsApp</button>
+        </nav>
+      </div>
 
       {/* --- NAVIGATION --- */}
       <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100 h-20">
         <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-[#C9952A] rounded-xl flex items-center justify-center text-white font-black text-xl">P</div>
-            <span className="text-xl font-extrabold text-slate-900 tracking-tighter uppercase">Perform'<span className="text-[#C9952A]">Eco</span></span>
+            <span className="text-xl font-extrabold text-slate-900 uppercase">Perform'<span className="text-[#C9952A]">Eco</span></span>
           </div>
 
           <div className="hidden md:flex gap-10 items-center text-sm font-bold uppercase tracking-widest">
-            <a href="#accueil" className="text-slate-600 hover:text-[#C9952A] transition-colors">Accueil</a>
-            <a href="#services" className="text-slate-600 hover:text-[#C9952A] transition-colors">Services</a>
-            <button onClick={openWhatsApp} className="btn btn-primary text-xs px-6 py-3 uppercase">Contactez-nous</button>
+            <a href="#accueil" className="hover:text-[#C9952A] transition-colors">Accueil</a>
+            <a href="#services" className="hover:text-[#C9952A] transition-colors">Services</a>
+            <button onClick={openWhatsApp} className="btn btn-primary text-xs px-6 py-3">Contactez-nous</button>
           </div>
 
-          <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-slate-900">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7" strokeWidth="2" strokeLinecap="round" /></svg>
+          <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 text-slate-900">
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" strokeWidth="2.5" strokeLinecap="round" /></svg>
           </button>
         </div>
       </nav>
 
       {/* --- HERO SECTION --- */}
-      <section id="accueil" className="relative pt-48 pb-24 px-6 overflow-hidden flex items-center min-h-[85vh]">
-        <div className="hero-glow top-[-100px] right-[-100px]"></div>
-        <div className="hero-glow bottom-[-100px] left-[-100px]"></div>
-
-        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-20 items-center">
-          <div className="relative z-10">
-            <div className="inline-block px-5 py-2 mb-8 rounded-full bg-slate-50 border border-slate-100 text-xs font-bold tracking-[0.4em] uppercase text-[#C9952A]">
+      <section id="accueil" className="relative pt-40 pb-20 px-6 min-h-[80vh] flex items-center">
+        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16">
+          <div className="z-10">
+            <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-bold tracking-widest uppercase text-[#C9952A]">
               Cabinet de Conseil & Stratégie
             </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-10 tracking-tighter uppercase">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-8 uppercase">
               L'expertise <br />au service de <br />
-              <span className="gold-gradient italic">votre performance.</span>
+              <span className="text-[#C9952A] italic">votre performance.</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-500 max-w-lg mb-12 font-light leading-relaxed">
-              Des solutions économiques sur mesure pour booster la performance de votre activité à Abidjan et partout en Côte d'Ivoire.
+            <p className="text-lg text-slate-500 mb-10 max-w-md">
+              Solutions sur mesure pour booster votre activité à Abidjan et partout en Côte d'Ivoire.
             </p>
-            <div className="flex flex-wrap gap-5">
-              <button onClick={openWhatsApp} className="btn btn-primary px-12 py-5 text-xs uppercase tracking-[0.15em]">Prendre Rendez-vous</button>
-              <a href="#services" className="btn btn-outline px-12 py-5 text-xs uppercase tracking-[0.15em]">Nos Services</a>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button onClick={openWhatsApp} className="btn btn-primary px-8">Prendre Rendez-vous</button>
+              <a href="#services" className="btn btn-outline px-8">Nos Services</a>
             </div>
           </div>
-
-          <div className="relative group hidden lg:block">
-            <div className="relative z-10 glass-card p-4 rounded-[3rem] rotate-2 group-hover:rotate-0 transition-transform duration-1000">
-              <img
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000"
-                alt="Analyse business"
-                className="rounded-[2.5rem] h-[550px] w-full object-cover transition-all duration-700"
-              />
-            </div>
+          <div className="hidden lg:block relative">
+            <img
+              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
+              alt="Analyse"
+              className="rounded-[2.5rem] shadow-2xl rotate-2"
+            />
           </div>
         </div>
       </section>
 
       {/* --- SERVICES SECTION --- */}
-      <section id="services" className="py-32 px-6 bg-slate-50">
+      <section id="services" className="py-24 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24">
-            <h2 className="text-[#C9952A] text-xs font-bold tracking-[0.6em] uppercase mb-5">Domaines d'Intervention</h2>
-            <p className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tighter uppercase">Nos pôles de compétences</p>
+          <div className="text-center mb-20">
+            <h2 className="text-[#C9952A] text-xs font-bold tracking-[0.5em] uppercase mb-4">Domaines d'Intervention</h2>
+            <p className="text-3xl md:text-4xl font-extrabold text-slate-900 uppercase">Nos pôles de compétences</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((s, i) => (
-              <div key={i} className="glass-card p-12 rounded-[2.5rem] hover:shadow-xl hover:translate-y-[-5px] transition-all duration-500 group flex flex-col h-full bg-white">
-                <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center text-[#C9952A] mb-10 group-hover:bg-[#C9952A] group-hover:text-white transition-all">
+              <div key={i} className="glass-card p-10 rounded-[2rem] bg-white transition-transform hover:-translate-y-2">
+                <div className="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center text-[#C9952A] mb-8">
                   {s.icon}
                 </div>
-                <h3 className="text-slate-900 font-bold text-xl mb-8 leading-tight min-h-[3rem] uppercase tracking-tight">{s.title}</h3>
-
-                <ul className="space-y-5 mb-12 flex-1">
+                <h3 className="text-slate-900 font-bold text-lg mb-6 uppercase leading-tight">{s.title}</h3>
+                <ul className="space-y-4 mb-8">
                   {s.items.map((item, j) => (
-                    <li key={j} className="text-[15px] text-slate-600 flex items-center gap-4">
+                    <li key={j} className="text-sm text-slate-600 flex items-center gap-3">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#C9952A]"></div>
                       {item}
                     </li>
                   ))}
                 </ul>
-
-                <button onClick={openWhatsApp} className="btn btn-outline w-full text-[10px] font-bold tracking-[0.2em] uppercase">Demander un devis</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* --- VISION SECTION --- */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-5xl mx-auto glass-card p-16 md:p-24 rounded-[4rem] text-center relative overflow-hidden border-none shadow-2xl">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-[#C9952A]/10 rounded-full -mr-24 -mt-24 blur-[100px]"></div>
-
-          <h2 className="text-[#C9952A] text-xs font-bold tracking-[0.5em] uppercase mb-10">Notre Vision</h2>
-          <p className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-16 tracking-tight uppercase">
-            Vous accompagner à chaque étape pour transformer vos défis en résultats durables.
-          </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-            {[
-              { label: "EXPERTISE", val: "Elite" },
-              { label: "SUR MESURE", val: "Précis" },
-              { label: "ENGAGEMENT", val: "Total" },
-              { label: "RÉSULTATS", val: "Concrets" }
-            ].map((trait, idx) => (
-              <div key={idx} className="flex flex-col items-center gap-3">
-                <span className="text-[11px] font-extrabold tracking-[0.3em] text-[#C9952A] uppercase">{trait.label}</span>
-                <span className="text-[10px] text-slate-400 font-bold tracking-widest uppercase">{trait.val}</span>
+                <button onClick={openWhatsApp} className="text-[#C9952A] text-[10px] font-bold uppercase tracking-widest border-b border-[#C9952A] pb-1">
+                  En savoir plus
+                </button>
               </div>
             ))}
           </div>
@@ -220,43 +207,25 @@ export default function VitrinePerformEco() {
       </section>
 
       {/* --- FOOTER --- */}
-      <footer id="contact" className="pt-32 pb-16 px-6 border-t border-slate-100 bg-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-20 mb-24">
+      <footer id="contact" className="py-20 px-6 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto text-center md:text-left grid md:grid-cols-3 gap-12">
           <div>
-            <div className="flex items-center gap-3 mb-8">
+            <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
               <div className="w-8 h-8 bg-[#C9952A] rounded flex items-center justify-center text-white font-black text-lg">P</div>
-              <span className="text-xl font-bold tracking-tighter text-slate-900 uppercase">Perform'<span className="text-[#C9952A]">Eco</span></span>
+              <span className="text-xl font-bold text-slate-900 uppercase tracking-tighter">Perform'Eco</span>
             </div>
-            <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
-              Votre partenaire de performance opérationnelle et financière en Côte d'Ivoire.
-            </p>
+            <p className="text-slate-400 text-sm">Votre partenaire performance en Côte d'Ivoire.</p>
           </div>
-
-          <div className="space-y-6">
-            <h4 className="text-slate-900 font-bold mb-8 text-xs uppercase tracking-[0.3em]">Contact Direct</h4>
-            <p className="text-sm text-slate-600 font-medium">01 02 76 61 42 (Principal)</p>
-            <p className="text-sm text-slate-600 font-medium">07 08 50 33 76 (Stratégie)</p>
-            <p className="text-sm text-slate-600 font-medium uppercase tracking-widest">Abidjan, Côte d'Ivoire</p>
+          <div className="text-sm space-y-2">
+            <h4 className="font-bold uppercase tracking-widest mb-4">Contacts</h4>
+            <p>+225 01 02 76 61 42</p>
+            <p>+225 07 08 50 33 76</p>
           </div>
-
-          <div className="space-y-6">
-            <button
-              onClick={openWhatsApp}
-              className="btn btn-primary w-full text-[10px] uppercase tracking-[0.2em]"
-            >
+          <div>
+            <button onClick={openWhatsApp} className="btn btn-primary w-full text-xs uppercase tracking-widest">
               Contact WhatsApp
             </button>
-            <p className="text-[10px] text-center text-slate-400 font-bold uppercase tracking-widest">Disponible du Lundi au Samedi</p>
           </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto pt-12 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.5em]">
-            PERFORM'ECO — PARTENAIRE DE PERFORMANCE
-          </p>
-          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-            © 2026 Tous Droits Réservés
-          </p>
         </div>
       </footer>
     </div>
