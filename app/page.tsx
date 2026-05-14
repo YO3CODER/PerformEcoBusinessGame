@@ -259,10 +259,9 @@ export default function VitrinePerformEco() {
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-white font-bold mb-8 text-xs uppercase tracking-[0.3em]">Plateforme</h4>
-            <p className="text-xs text-[#C9952A] break-all font-bold">
-              https://performeco2026.mystrikingly.com/1
-            </p>
+      
+    
+          
             <a
               href="https://wa.me/2250102766142"
               target="_blank"
